@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../utils/app-constant.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -18,6 +20,12 @@ class _SignInState extends State<SignIn> {
         backgroundColor: AppConstant.appScendoryColor,
         elevation: 0,
       ),
+      body: Container(
+          child: Column(
+        children: [
+         Text("Kai")
+        ],
+      )),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sign-in-screen.dart';
 import 'package:fresh_n_fish_spectrum/view/auth_ui/splash-screen.dart';
 import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
 void main(){
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp(
-        home: WelcomeScreen(),
+        home: SignIn(),
       ),
     );
   }
