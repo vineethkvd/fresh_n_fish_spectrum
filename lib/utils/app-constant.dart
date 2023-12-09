@@ -7,5 +7,7 @@ class AppConstant {
   static const appScendoryColor = Color(0xFF981206);
   static const appTextColor = Color(0xFFFBF5F4);
   static const appStatusBarColor = Color(0xFFFBF5F4);
+  static const btnColor = Color(0xFF1F41BB);
+  static const btnColorDark =Color(0xFF595959);
   static const transparentColor = Colors.transparent;
 }

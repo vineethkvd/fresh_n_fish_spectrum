@@ -54,6 +54,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   SizedBox(
+                    height: 10.h,
+                  ),
+                  SizedBox(
                     width: 323.w,
                     child: Text(
                       'Explore all the existing job roles based on your interest and study major',
@@ -65,6 +68,60 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 90.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Material(
+                        child: Container(
+                          width: 135.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            color: AppConstant.btnColor,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Login',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                  fontFamily: 'Roboto-Bold',
+                                ),
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Material(
+                        child: Container(
+                          width: 135.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            color: AppConstant.btnColorDark,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Register',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                  fontFamily: 'Roboto-Bold',
+                                ),
+                              )),
+                        ),
+                      )
+                    ],
                   )
                 ]),
           )
