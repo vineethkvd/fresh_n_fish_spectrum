@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../utils/app-constant.dart';
+import '../../Utils/app-constant.dart';
+
+
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -76,50 +78,59 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Material(
-                        child: Container(
-                          width: 135.w,
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            color: AppConstant.btnColor,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Login',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
-                                  fontFamily: 'Roboto-Bold',
-                                ),
-                              )),
-                        ),
+                      SizedBox(
+                        width: 135.w,
+                        height: 38.h,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                AppConstant.btnColor,
+                              ),
+                              overlayColor: MaterialStateProperty.all(
+                                  AppConstant.btnColor),
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(9.r))),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              'Login',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontFamily: 'Roboto-Bold',
+                              ),
+                            )),
                       ),
                       SizedBox(
                         width: 30.w,
                       ),
-                      Material(
-                        child: Container(
-                          width: 135.w,
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            color: AppConstant.btnColorDark,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Register',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
-                                  fontFamily: 'Roboto-Bold',
-                                ),
-                              )),
-                        ),
+                      SizedBox(
+                        width: 135.w,
+                        height: 38.h,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                AppConstant.btnColorDark,
+                              ),
+                              overlayColor:
+                                  MaterialStateProperty.all(AppConstant.btnColor),
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(9.r))),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              'Register',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontFamily: 'Roboto-Bold',
+                              ),
+                            )),
                       )
                     ],
                   )
