@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-up-screen.dart';
-import 'View/auth_ui/sign-in-screen.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,12 +21,16 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return ScreenUtilInit(
-      designSize: const Size(360,800),
+      designSize: const Size(428, 926),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
-        home: SignUp(),
-      ),
+      builder: (context, child) {
+        return GetMaterialApp(
+          theme: ThemeData(primarySwatch: Colors.blue),
+          debugShowCheckedModeBanner: false,
+          home: const SignUp(),
+        );
+      },
     );
   }
 }
