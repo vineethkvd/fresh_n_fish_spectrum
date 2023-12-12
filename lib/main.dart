@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
           debugShowCheckedModeBanner: false,
-          home: const SignIn(),
+          home: const SplashScreen(),
         );
       },
     );
