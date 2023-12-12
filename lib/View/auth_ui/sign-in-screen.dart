@@ -65,7 +65,7 @@ class _SignInState extends State<SignIn> {
                 width: MediaQuery.of(context).size.width,
                 child: Column(children: [
                   Text(
-                    'Create Account',
+                    'Login here',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFFFFD771),
@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
                     height: 20.h,
                   ),
                   Text(
-                    'Create an account so you can \n explore all the existing jobs',
+                    'Welcome back you’ve been missed!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -169,11 +169,13 @@ class _SignInState extends State<SignIn> {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(bottom: 30.0).w,
                 width: MediaQuery.of(context).size.width,
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   SizedBox(
                     width: 60.w,
                     height: 44.h,
-                    child: SvgPicture.asset('assets/images/flat-color-icons_google.svg'),
+                    child: SvgPicture.asset(
+                        'assets/images/flat-color-icons_google.svg'),
                   ),
                   SizedBox(
                     width: 10.w,
