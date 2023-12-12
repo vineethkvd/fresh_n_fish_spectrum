@@ -9,5 +9,6 @@ class AppConstant {
   static const appStatusBarColor = Color(0xFFFBF5F4);
   static const btnColor = Color(0xFF1F41BB);
   static const btnColorDark =Color(0xFF595959);
+  static const yellowText =Color(0xFFFFD771);
   static const transparentColor = Colors.transparent;
 }

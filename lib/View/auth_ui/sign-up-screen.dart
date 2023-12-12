@@ -65,7 +65,7 @@ class _SignUpState extends State<SignUp> {
                     'Create Account',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFFFD771),
+                      color: AppConstant.yellowText,
                       fontSize: 30.sp,
                       fontFamily: 'Roboto-Bold',
                     ),
@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Expanded(
                 child: Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 323.w,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
