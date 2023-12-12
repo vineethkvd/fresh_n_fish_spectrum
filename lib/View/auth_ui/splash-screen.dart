@@ -33,8 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> logInCheck(BuildContext context) async {
     if (user != null) {
-      final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
       Get.offAll(() => const MainPage(),
           transition: Transition.leftToRightWithFade);
     } else {

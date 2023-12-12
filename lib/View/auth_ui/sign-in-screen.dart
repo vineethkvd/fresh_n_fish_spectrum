@@ -15,15 +15,25 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
   Widget getTextField(
       {required String hint,
       required var icons,
       required var validator,
-      required var controller}) {
+      required var controller,
+      required var keyboardType}) {
     return TextFormField(
+      keyboardType: keyboardType,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
+          errorStyle: TextStyle(
+            color: Colors.yellow,
+            fontSize: null,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+          ),
           prefixIcon: icons,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
@@ -76,7 +86,7 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text(
+                      const Text(
                         'Welcome back you’ve been missed!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -90,77 +100,86 @@ class _SignInState extends State<SignIn> {
                   ),
                   Expanded(
                     child: Center(
-                      child: Container(
-                        width: 323.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            getTextField(
-                                hint: "Email",
-                                icons: const Icon(Icons.email),
-                                validator: (value) => Validator.validateEmail(
-                                      email: value,
+                      child: Form(
+                        key: _formKey,
+                        child: SizedBox(
+                          width: 323.w,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              getTextField(
+                                  hint: "Email",
+                                  icons: const Icon(Icons.email),
+                                  validator: (value) => Validator.validateEmail(
+                                        email: value,
+                                      ),
+                                  controller: _emailTextController,
+                                  keyboardType: TextInputType.emailAddress),
+                              SizedBox(
+                                height: 26.h,
+                              ),
+                              getTextField(
+                                  hint: "Password",
+                                  icons: const Icon(Icons.lock),
+                                  validator: (value) =>
+                                      Validator.validatePassword(
+                                        password: value,
+                                      ),
+                                  controller: _passwordTextController,
+                                  keyboardType: TextInputType.visiblePassword),
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                              Container(
+                                alignment: Alignment.topRight,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Forgot your password?',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto-Regular',
+                                      color: AppConstant.appTextColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      height: 0.h,
                                     ),
-                                controller: null),
-                            SizedBox(
-                              height: 26.h,
-                            ),
-                            getTextField(
-                                hint: "Password",
-                                icons: const Icon(Icons.lock),
-                                validator: (value) => Validator.validatePassword(
-                                      password: value,
-                                    ),
-                                controller: null),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Forgot your password?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto-Regular',
-                                    color: AppConstant.appTextColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    height: 0.h,
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            SizedBox(
-                                width: 357.w,
-                                height: 50.h,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      shape: MaterialStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(9.r))),
-                                      backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                              Color(0xFF1F41BB))),
-                                  onPressed: () async {},
-                                  child: Text(
-                                    'Sign in',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: AppConstant.appTextColor,
-                                      fontSize: 20.sp,
-                                      height: 0.h,
-                                      fontFamily: 'Roboto-Bold',
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                              SizedBox(
+                                  width: 357.w,
+                                  height: 50.h,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        shape: MaterialStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        9.r))),
+                                        backgroundColor:
+                                            const MaterialStatePropertyAll(
+                                                Color(0xFF1F41BB))),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {}
+                                    },
+                                    child: Text(
+                                      'Sign in',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: AppConstant.appTextColor,
+                                        fontSize: 20.sp,
+                                        height: 0.h,
+                                        fontFamily: 'Roboto-Bold',
+                                      ),
                                     ),
-                                  ),
-                                )),
-                          ],
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -169,24 +188,25 @@ class _SignInState extends State<SignIn> {
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(bottom: 30.0).w,
                     width: MediaQuery.of(context).size.width,
-                    child:
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      SizedBox(
-                        width: 60.w,
-                        height: 44.h,
-                        child: SvgPicture.asset(
-                            'assets/images/flat-color-icons_google.svg'),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      SizedBox(
-                        width: 60.w,
-                        height: 44.h,
-                        child: SvgPicture.asset(
-                            'assets/images/ic_sharp-local-phone.svg'),
-                      ),
-                    ]),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 60.w,
+                            height: 44.h,
+                            child: SvgPicture.asset(
+                                'assets/images/flat-color-icons_google.svg'),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          SizedBox(
+                            width: 60.w,
+                            height: 44.h,
+                            child: SvgPicture.asset(
+                                'assets/images/ic_sharp-local-phone.svg'),
+                          ),
+                        ]),
                   ),
                 ]),
           ),

@@ -87,87 +87,90 @@ class _SignUpState extends State<SignUp> {
               ),
               Expanded(
                 child: Center(
-                  child: SizedBox(
-                    width: 323.w,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        getTextField(
-                            hint: "Name",
-                            icons: const Icon(Icons.person_outline),
-                            validator: (value) => Validator.validateName(
-                              name: value,
-                            ),
-                            controller: null),
-                        SizedBox(
-                          height: 26.h,
-                        ),
-                        getTextField(
-                            hint: "Email",
-                            icons: const Icon(Icons.email),
-                            validator: (value) => Validator.validateEmail(
-                              email: value,
-                            ),
-                            controller: null),
-                        SizedBox(
-                          height: 26.h,
-                        ),
-                        getTextField(
-                            hint: "Password",
-                            icons: const Icon(Icons.lock),
-                            validator: (value) => Validator.validatePassword(
-                              password: value,
-                            ),
-                            controller: null),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Forgot your password?',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Roboto-Regular',
-                                color: AppConstant.appTextColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                height: 0.h,
+                  child: Form(
+                    key: _formKey,
+                    child: SizedBox(
+                      width: 323.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          getTextField(
+                              hint: "Name",
+                              icons: const Icon(Icons.person_outline),
+                              validator: (value) => Validator.validateName(
+                                name: value,
+                              ),
+                              controller: null),
+                          SizedBox(
+                            height: 26.h,
+                          ),
+                          getTextField(
+                              hint: "Email",
+                              icons: const Icon(Icons.email),
+                              validator: (value) => Validator.validateEmail(
+                                email: value,
+                              ),
+                              controller: null),
+                          SizedBox(
+                            height: 26.h,
+                          ),
+                          getTextField(
+                              hint: "Password",
+                              icons: const Icon(Icons.lock),
+                              validator: (value) => Validator.validatePassword(
+                                password: value,
+                              ),
+                              controller: null),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Container(
+                            alignment: Alignment.topRight,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Forgot your password?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Roboto-Regular',
+                                  color: AppConstant.appTextColor,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0.h,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        SizedBox(
-                            width: 357.w,
-                            height: 50.h,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(9.r))),
-                                  backgroundColor:
-                                  const MaterialStatePropertyAll(
-                                      Color(0xFF1F41BB))),
-                              onPressed: () async {},
-                              child: Text(
-                                'Sign in',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppConstant.appTextColor,
-                                  fontSize: 20.sp,
-                                  height: 0.h,
-                                  fontFamily: 'Roboto-Bold',
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          SizedBox(
+                              width: 357.w,
+                              height: 50.h,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(9.r))),
+                                    backgroundColor:
+                                    const MaterialStatePropertyAll(
+                                        Color(0xFF1F41BB))),
+                                onPressed: () async {},
+                                child: Text(
+                                  'Sign in',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: AppConstant.appTextColor,
+                                    fontSize: 20.sp,
+                                    height: 0.h,
+                                    fontFamily: 'Roboto-Bold',
+                                  ),
                                 ),
-                              ),
-                            )),
-                      ],
+                              )),
+                        ],
+                      ),
                     ),
                   ),
                 ),

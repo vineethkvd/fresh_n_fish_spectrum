@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-in-screen.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-up-screen.dart';
 import 'package:get/route_manager.dart';
 
 import '../../Utils/app-constant.dart';
@@ -92,7 +94,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                         borderRadius:
                                             BorderRadius.circular(9.r))),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.offAll(() => const SignIn(),
+                                    transition: Transition.leftToRightWithFade);
+                              },
                               child: Text(
                                 'Login',
                                 textAlign: TextAlign.center,
@@ -120,7 +125,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(9.r))),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.offAll(() => const SignUp(),
+                                    transition: Transition.leftToRightWithFade);
+                              },
                               child: Text(
                                 'Register',
                                 textAlign: TextAlign.center,
