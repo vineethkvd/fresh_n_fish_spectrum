@@ -16,15 +16,25 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
+  final _nameTextController = TextEditingController();
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
   Widget getTextField(
       {required String hint,
       required var icons,
       required var validator,
-      required var controller}) {
+      required var controller,required var keyboardType}) {
     return TextFormField(
+      keyboardType: keyboardType,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
+          errorStyle: const TextStyle(
+            color: Colors.yellow,
+            fontSize: null,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+          ),
           prefixIcon: icons,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.r),
@@ -96,32 +106,35 @@ class _SignUpState extends State<SignUp> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           getTextField(
+                              keyboardType: TextInputType.text,
                               hint: "Name",
                               icons: const Icon(Icons.person_outline),
                               validator: (value) => Validator.validateName(
                                 name: value,
                               ),
-                              controller: null),
+                              controller: _nameTextController),
                           SizedBox(
                             height: 26.h,
                           ),
                           getTextField(
+                              keyboardType: TextInputType.emailAddress,
                               hint: "Email",
                               icons: const Icon(Icons.email),
                               validator: (value) => Validator.validateEmail(
                                 email: value,
                               ),
-                              controller: null),
+                              controller: _emailTextController),
                           SizedBox(
                             height: 26.h,
                           ),
                           getTextField(
+                              keyboardType: TextInputType.visiblePassword,
                               hint: "Password",
                               icons: const Icon(Icons.lock),
                               validator: (value) => Validator.validatePassword(
                                 password: value,
                               ),
-                              controller: null),
+                              controller: _passwordTextController),
                           SizedBox(
                             height: 15.h,
                           ),
@@ -157,9 +170,11 @@ class _SignUpState extends State<SignUp> {
                                     backgroundColor:
                                     const MaterialStatePropertyAll(
                                         Color(0xFF1F41BB))),
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {}
+                                },
                                 child: Text(
-                                  'Sign in',
+                                  'Sign Up',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppConstant.appTextColor,
