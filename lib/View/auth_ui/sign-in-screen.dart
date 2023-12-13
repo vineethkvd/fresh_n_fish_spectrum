@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,7 @@ import '../../Controller/email-sign-in-controller.dart';
 import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
+import '../main_page.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -21,14 +23,14 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-
+  bool _loading = false;
   get passwordTextController => _passwordTextController;
 
   get emailTextController => _emailTextController;
   final EmailPassController _emailPassController =
-  Get.put(EmailPassController());
+      Get.put(EmailPassController());
   final GoogleSignInController _googleSignInController =
-  Get.put(GoogleSignInController());
+      Get.put(GoogleSignInController());
   Widget getTextField(
       {required String hint,
       required var icons,
@@ -40,7 +42,7 @@ class _SignInState extends State<SignIn> {
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             color: Colors.yellow,
             fontSize: null,
             fontWeight: FontWeight.w400,
@@ -180,19 +182,46 @@ class _SignInState extends State<SignIn> {
                                                 Color(0xFF1F41BB))),
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        _emailPassController.signinUser(passwordTextController, emailTextController);
+                                        setState(() {
+                                          _loading = true;
+                                        });
+                                        try {
+                                          UserCredential? userCredential =
+                                              await _emailPassController
+                                                  .signinUser(
+                                            _emailTextController.text,
+                                            _passwordTextController.text,
+                                          );
+                                          if (userCredential!
+                                              .user!.emailVerified) {
+                                            final user = userCredential.user;
+                                            Get.off(() => const MainPage(),
+                                                transition: Transition
+                                                    .leftToRightWithFade);
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        } finally {
+                                          setState(() {
+                                            _loading = false;
+                                          });
+                                        }
                                       }
                                     },
-                                    child: Text(
-                                      'Sign in',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppConstant.appTextColor,
-                                        fontSize: 20.sp,
-                                        height: 0.h,
-                                        fontFamily: 'Roboto-Bold',
-                                      ),
-                                    ),
+                                    child: _loading
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : Text(
+                                            'Sign in',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: AppConstant.appTextColor,
+                                              fontSize: 20.sp,
+                                              height: 0.h,
+                                              fontFamily: 'Roboto-Bold',
+                                            ),
+                                          ),
                                   )),
                             ],
                           ),
