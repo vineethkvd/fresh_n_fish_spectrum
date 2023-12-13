@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,8 @@ import '../../Controller/email-sign-in-controller.dart';
 import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
+import '../main_page.dart';
+import 'email_validation.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -22,12 +25,6 @@ class _SignUpState extends State<SignUp> {
   final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-
-  get emailTextController => _emailTextController;
-
-  get passwordTextController => _passwordTextController;
-
-  get nameTextController => _nameTextController;
   final GoogleSignInController _googleSignInController =
       Get.put(GoogleSignInController());
   final EmailPassController _emailPassController =
@@ -189,10 +186,28 @@ class _SignUpState extends State<SignUp> {
                                             Color(0xFF1F41BB))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    _emailPassController.signupUser(
-                                        emailTextController,
-                                        passwordTextController,
-                                        nameTextController);
+                                    try {
+                                      await _emailPassController.signupUser(
+                                        _emailTextController.text,
+                                        _passwordTextController.text,
+                                        _nameTextController.text,
+                                      );
+                                      if (_emailPassController.currentUser !=
+                                          null) {
+                                        Get.off(
+                                            () => EmailValidationScreen(
+                                                user: _emailPassController
+                                                    .currentUser!),
+                                            transition:
+                                                Transition.leftToRightWithFade);
+                                      } else {
+                                        // No user is currently authenticated
+                                        Get.snackbar('No user is',
+                                            'currently authenticated');
+                                      }
+                                    } catch (e) {
+                                      Get.snackbar('Error', e.toString());
+                                    }
                                   }
                                 },
                                 child: Text(

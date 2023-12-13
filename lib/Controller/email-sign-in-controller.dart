@@ -13,7 +13,7 @@ class EmailPassController extends GetxController {
 
   Future<void> signupUser(String email, String password, String name) async {
     final GetDeviceTokenController getDeviceTokenController =
-    Get.put(GetDeviceTokenController());
+        Get.put(GetDeviceTokenController());
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -81,9 +81,10 @@ class EmailPassController extends GetxController {
       print(e);
     }
   }
+
   Future<void> ForgetPasswordMethod(
-      String userEmail,
-      ) async {
+    String userEmail,
+  ) async {
     try {
       await _auth.sendPasswordResetEmail(email: userEmail);
       Get.snackbar(

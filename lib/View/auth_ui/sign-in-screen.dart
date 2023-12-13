@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-up-screen.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
@@ -145,7 +146,9 @@ class _SignInState extends State<SignIn> {
                               Container(
                                 alignment: Alignment.topRight,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.off(const SignUp());
+                                  },
                                   child: Text(
                                     'Forgot your password?',
                                     textAlign: TextAlign.center,
