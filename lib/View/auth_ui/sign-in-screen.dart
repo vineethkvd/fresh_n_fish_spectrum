@@ -191,11 +191,16 @@ class _SignInState extends State<SignIn> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 60.w,
-                            height: 44.h,
-                            child: SvgPicture.asset(
-                                'assets/images/flat-color-icons_google.svg'),
+                          GestureDetector(
+                            onTap: () {
+                              print("Clicked");
+                            },
+                            child: SizedBox(
+                              width: 60.w,
+                              height: 44.h,
+                              child: SvgPicture.asset(
+                                  'assets/images/flat-color-icons_google.svg'),
+                            ),
                           ),
                           SizedBox(
                             width: 10.w,
