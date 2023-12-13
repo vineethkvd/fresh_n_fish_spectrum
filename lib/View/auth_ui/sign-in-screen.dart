@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
+import '../../Controller/email-sign-in-controller.dart';
+import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
 
@@ -17,6 +20,14 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+
+  get passwordTextController => _passwordTextController;
+
+  get emailTextController => _emailTextController;
+  final EmailPassController _emailPassController =
+  Get.put(EmailPassController());
+  final GoogleSignInController _googleSignInController =
+  Get.put(GoogleSignInController());
   Widget getTextField(
       {required String hint,
       required var icons,
@@ -165,7 +176,9 @@ class _SignInState extends State<SignIn> {
                                             const MaterialStatePropertyAll(
                                                 Color(0xFF1F41BB))),
                                     onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {}
+                                      if (_formKey.currentState!.validate()) {
+                                        _emailPassController.signinUser(passwordTextController, emailTextController);
+                                      }
                                     },
                                     child: Text(
                                       'Sign in',
@@ -193,7 +206,7 @@ class _SignInState extends State<SignIn> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              print("Clicked");
+                              _googleSignInController.signInWithGoogle();
                             },
                             child: SizedBox(
                               width: 60.w,

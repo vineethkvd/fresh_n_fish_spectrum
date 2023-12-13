@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
 import 'package:fresh_n_fish_spectrum/View/main_page.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,6 +12,8 @@ import 'get-device-token-controller.dart';
 class GoogleSignInController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _googleSignIn = GoogleSignIn();
+  Rx<User?> user = Rx<User?>(null);
 
   Future<void> signInWithGoogle() async {
     final GetDeviceTokenController getDeviceTokenController =
@@ -62,6 +65,20 @@ class GoogleSignInController extends GetxController {
     } catch (e) {
       EasyLoading.dismiss();
       print("error $e");
+    }
+  }
+
+
+  Future<void> signOutGoogle() async {
+    try {
+      await _googleSignIn.signOut();
+      user(null); // Assuming that `user` is a function to update the user state
+
+      print("User Signed Out");
+      Get.offAll(() => const WelcomeScreen()); // Use Get.offAll to navigate to MainScreen
+    } catch (e) {
+      // Handle any errors that occurred during sign out
+      print("Error signing out: $e");
     }
   }
 }
