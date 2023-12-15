@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../Controller/get-user-data-controller.dart';
 import '../../Utils/app-constant.dart';
 import '../auth_ui/welcome_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +17,9 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  final GetUserDataController _getUserDataController =
+  Get.put(GetUserDataController());
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,28 +32,48 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: Wrap(
         runSpacing: 10,
         children: [
-          Padding(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            child: ListTile(
-              titleAlignment: ListTileTitleAlignment.center,
-              title: Text(
-                "Waris",
-                style: TextStyle(color: AppConstant.appTextColor),
-              ),
-              subtitle: Text(
-                "Version 1.0.1",
-                style: TextStyle(color: AppConstant.appTextColor),
-              ),
-              leading: CircleAvatar(
-                radius: 22.0,
-                backgroundColor: AppConstant.appMainColor,
-                child: Text(
-                  "W",
-                  style: TextStyle(color: AppConstant.appTextColor),
-                ),
-              ),
-            ),
+          FutureBuilder<List<QueryDocumentSnapshot<Object?>>>(
+            future: _getUserDataController.getUserData(user!.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Return a loading indicator or placeholder widget
+                return SizedBox(width: 20.w,height: 20.h,child: Center(child: const CircularProgressIndicator()));
+              } else if (snapshot.hasError) {
+                // Handle error
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Data has been loaded successfully
+                List<QueryDocumentSnapshot<Object?>> data = snapshot.data!;
+
+                // Rest of your widget tree using the 'data'
+
+                return Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                  child: ListTile(
+                    titleAlignment: ListTileTitleAlignment.center,
+                    title: Text(
+                      "${data.isNotEmpty ? data[0]['username'] : 'N/A'}",
+                      style: TextStyle(color: AppConstant.appTextColor, fontFamily: 'Roboto-Regular',
+                        fontSize: 15.sp,),
+                    ),
+                    subtitle: Text(
+                      "${data.isNotEmpty ? data[0]['email'] : 'N/A'}",
+                      style: TextStyle(color: AppConstant.appTextColor,fontFamily: 'Roboto-Regular',
+                          fontSize: 10.sp),
+                    ),
+                    leading: CircleAvatar(
+                      radius: 22.0,
+                      backgroundColor: AppConstant.appMainColor,
+                      child: Text(
+                        "W",
+                        style: TextStyle(color: AppConstant.appTextColor),
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
           Divider(
             indent: 10.0,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/Utils/app-constant.dart';
@@ -74,7 +75,7 @@ class _MainPageState extends State<MainPage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // Return a loading indicator or placeholder widget
-                return const CircularProgressIndicator();
+                return const CupertinoActivityIndicator();
               } else if (snapshot.hasError) {
                 // Handle error
                 return Text('Error: ${snapshot.error}');
