@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../Controller/banners-controller.dart';
@@ -24,11 +25,11 @@ class _BannerWidgetState extends State<BannerWidget> {
           items: _bannerController.bannerUrls
               .map(
                 (imageUrls) => ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10.0).r,
                   child: CachedNetworkImage(
                     imageUrl: imageUrls,
                     fit: BoxFit.cover,
-                    width: Get.width - 10,
+                    width: Get.width - 10.w,
                     placeholder: (context, url) => ColoredBox(
                       color: Colors.white,
                       child: Center(
