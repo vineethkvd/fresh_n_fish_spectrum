@@ -65,10 +65,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     leading: CircleAvatar(
                       radius: 22.0,
                       backgroundColor: AppConstant.appMainColor,
-                      child: Text(
-                        "W",
-                        style: TextStyle(color: AppConstant.appTextColor),
-                      ),
+                      child: Image.network("${data[0]['userImg']}")
                     ),
                   ),
                 );
