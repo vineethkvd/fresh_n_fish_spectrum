@@ -14,7 +14,7 @@ class BannerController extends GetxController {
   Future<void> fetchBannersUrls() async {
     try {
       QuerySnapshot bannersSnapshot =
-          await FirebaseFirestore.instance.collection('banners').get();
+      await FirebaseFirestore.instance.collection('banners').get();
 
       if (bannersSnapshot.docs.isNotEmpty) {
         bannerUrls.value = bannersSnapshot.docs
