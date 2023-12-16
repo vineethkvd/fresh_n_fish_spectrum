@@ -126,7 +126,10 @@ class _MainPageState extends State<MainPage> {
                 padding: EdgeInsets.only(top: 12),
                 child: BannerWidget(),
               ),
-              GetProductWidget(),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GetProductWidget(),
+              ),
               Center(
                 child: ElevatedButton(
                     onPressed: () {

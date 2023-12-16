@@ -128,9 +128,9 @@ class _GetProductWidgetState extends State<GetProductWidget> {
                               SizedBox(
                                 width: 30.w,
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0.w),
+                              Flexible(
                                 child: CircleAvatar(
+                                  radius: 20.0,
                                   backgroundColor: const Color(0xFF660018),
                                   child: IconButton(
                                       icon: const Icon(Icons.add_shopping_cart,
