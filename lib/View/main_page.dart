@@ -11,6 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../Controller/get-user-data-controller.dart';
 import '../Controller/google-sign-in-controller.dart';
 import 'Widget/custom-drawer-widget.dart';
+import 'Widget/product-list-widget.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -125,6 +126,7 @@ class _MainPageState extends State<MainPage> {
                 padding: EdgeInsets.only(top: 12),
                 child: BannerWidget(),
               ),
+              GetProductWidget(),
               Center(
                 child: ElevatedButton(
                     onPressed: () {
