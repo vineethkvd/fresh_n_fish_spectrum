@@ -82,7 +82,7 @@ class EmailPassController extends GetxController {
     }
   }
 
-  Future<void> ForgetPasswordMethod(
+  Future<void> forgotPassword(
     String userEmail,
   ) async {
     try {
