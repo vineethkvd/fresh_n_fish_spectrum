@@ -23,16 +23,16 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GoogleSignInController _googleSignInController =
-  Get.put(GoogleSignInController());
+      Get.put(GoogleSignInController());
   final GetUserDataController _getUserDataController =
-  Get.put(GetUserDataController());
+      Get.put(GetUserDataController());
   User? user = FirebaseAuth.instance.currentUser;
   Widget getTextField(
       {required String hint,
-        required var icons,
-        required var validator,
-        required var controller,
-        required var keyboardType}) {
+      required var icons,
+      required var validator,
+      required var controller,
+      required var keyboardType}) {
     return TextFormField(
       keyboardType: keyboardType,
       validator: validator,
@@ -71,6 +71,20 @@ class _MainPageState extends State<MainPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: IconButton(
+                  onPressed: () {
+                    return null;
+                  },
+                  icon: Icon(
+                    CupertinoIcons.cart,
+                    color: Colors.white,
+                    size: 30,
+                  )),
+            )
+          ],
           backgroundColor: AppConstant.appMainColor,
           title: FutureBuilder<List<QueryDocumentSnapshot<Object?>>>(
             future: _getUserDataController.getUserData(user!.uid),
