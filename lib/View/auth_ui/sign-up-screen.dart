@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
 import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -26,15 +27,15 @@ class _SignUpState extends State<SignUp> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final GoogleSignInController _googleSignInController =
-      Get.put(GoogleSignInController());
+  Get.put(GoogleSignInController());
   final EmailPassController _emailPassController =
-      Get.put(EmailPassController());
+  Get.put(EmailPassController());
   Widget getTextField(
       {required String hint,
-      required var icons,
-      required var validator,
-      required var controller,
-      required var keyboardType}) {
+        required var icons,
+        required var validator,
+        required var controller,
+        required var keyboardType}) {
     return TextFormField(
       keyboardType: keyboardType,
       validator: validator,
@@ -56,7 +57,7 @@ class _SignUpState extends State<SignUp> {
             borderSide: const BorderSide(color: Colors.transparent),
           ),
           contentPadding:
-              EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+          EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           filled: true,
           fillColor: const Color(0xFFF1F4FF),
           hintText: hint,
@@ -121,8 +122,8 @@ class _SignUpState extends State<SignUp> {
                               hint: "Name",
                               icons: const Icon(Icons.person_outline),
                               validator: (value) => Validator.validateName(
-                                    name: value,
-                                  ),
+                                name: value,
+                              ),
                               controller: _nameTextController),
                           SizedBox(
                             height: 26.h,
@@ -132,8 +133,8 @@ class _SignUpState extends State<SignUp> {
                               hint: "Email",
                               icons: const Icon(Icons.email),
                               validator: (value) => Validator.validateEmail(
-                                    email: value,
-                                  ),
+                                email: value,
+                              ),
                               controller: _emailTextController),
                           SizedBox(
                             height: 26.h,
@@ -143,8 +144,8 @@ class _SignUpState extends State<SignUp> {
                               hint: "Password",
                               icons: const Icon(Icons.lock),
                               validator: (value) => Validator.validatePassword(
-                                    password: value,
-                                  ),
+                                password: value,
+                              ),
                               controller: _passwordTextController),
                           SizedBox(
                             height: 15.h,
@@ -180,10 +181,10 @@ class _SignUpState extends State<SignUp> {
                                     shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(9.r))),
+                                            BorderRadius.circular(9.r))),
                                     backgroundColor:
-                                        const MaterialStatePropertyAll(
-                                            Color(0xFF1F41BB))),
+                                    const MaterialStatePropertyAll(
+                                        Color(0xFF1F41BB))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     try {
@@ -195,11 +196,11 @@ class _SignUpState extends State<SignUp> {
                                       if (_emailPassController.currentUser !=
                                           null) {
                                         Get.off(
-                                            () => EmailValidationScreen(
+                                                () => EmailValidationScreen(
                                                 user: _emailPassController
                                                     .currentUser!),
                                             transition:
-                                                Transition.leftToRightWithFade);
+                                            Transition.leftToRightWithFade);
                                       } else {
                                         // No user is currently authenticated
                                         Get.snackbar('No user is',
@@ -232,7 +233,7 @@ class _SignUpState extends State<SignUp> {
                 margin: const EdgeInsets.only(bottom: 30.0).w,
                 width: MediaQuery.of(context).size.width,
                 child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   GestureDetector(
                     onTap: () {
                       _googleSignInController.signInWithGoogle();
@@ -247,11 +248,14 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     width: 10.w,
                   ),
-                  SizedBox(
-                    width: 60.w,
-                    height: 44.h,
-                    child: SvgPicture.asset(
-                        'assets/images/ic_sharp-local-phone.svg'),
+                  GestureDetector(
+                    onTap: () => Get.to(()=>SendOtp()),
+                    child: SizedBox(
+                      width: 60.w,
+                      height: 44.h,
+                      child: SvgPicture.asset(
+                          'assets/images/ic_sharp-local-phone.svg'),
+                    ),
                   ),
                 ]),
               ),

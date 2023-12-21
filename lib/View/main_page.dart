@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../Controller/get-user-data-controller.dart';
 import '../Controller/google-sign-in-controller.dart';
+import 'Widget/category-widget.dart';
 import 'Widget/custom-drawer-widget.dart';
 import 'Widget/product-list-widget.dart';
 
@@ -22,16 +23,16 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GoogleSignInController _googleSignInController =
-      Get.put(GoogleSignInController());
+  Get.put(GoogleSignInController());
   final GetUserDataController _getUserDataController =
-      Get.put(GetUserDataController());
+  Get.put(GetUserDataController());
   User? user = FirebaseAuth.instance.currentUser;
   Widget getTextField(
       {required String hint,
-      required var icons,
-      required var validator,
-      required var controller,
-      required var keyboardType}) {
+        required var icons,
+        required var validator,
+        required var controller,
+        required var keyboardType}) {
     return TextFormField(
       keyboardType: keyboardType,
       validator: validator,
@@ -86,12 +87,14 @@ class _MainPageState extends State<MainPage> {
 
                 // Rest of your widget tree using the 'data'
 
-                return Text("Hi, ${data.isNotEmpty ? data[0]['username'] : 'N/A'}",style:TextStyle(
-                  color: AppConstant.appTextColor,
-                  fontFamily: 'Roboto-Regular',
-                  fontSize: 15.sp,
-                  height: 0.h,
-                ));
+                return Text(
+                    "Hi, ${data.isNotEmpty ? data[0]['username'] : 'N/A'}",
+                    style: TextStyle(
+                      color: AppConstant.appTextColor,
+                      fontFamily: 'Roboto-Regular',
+                      fontSize: 15.sp,
+                      height: 0.h,
+                    ));
               }
             },
           ),
@@ -116,28 +119,27 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         drawer: const DrawerWidget(),
-        body: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: BannerWidget(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: GetProductWidget(),
-              ),
-              Center(
-                child: ElevatedButton(
-                    onPressed: () {
-                      _googleSignInController.signOutGoogle();
-                    },
-                    child: const Text("Logout")),
-              ),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            alignment: Alignment.center,
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 12),
+                  child: BannerWidget(),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CategoryWidget(),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: GetProductWidget(),
+                )
+              ],
+            ),
           ),
         ),
       ),
