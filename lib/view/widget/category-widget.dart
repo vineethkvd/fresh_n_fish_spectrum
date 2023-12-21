@@ -11,6 +11,7 @@ import '../../Controller/get-category-data-controller.dart';
 import '../../Controller/get-product-data-controller.dart';
 
 import '../../Models/product-model.dart';
+import '../screens/single-category-products-screen.dart';
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
@@ -41,6 +42,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           List<QueryDocumentSnapshot<Object?>> data = snapshot.data!;
           int dataLength = data.length;
 
+
           // Rest of your widget tree using the 'data'
 
           return Container(
@@ -61,7 +63,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 return Padding(
                   padding: EdgeInsets.all(8.0.w),
                   child: GestureDetector(
-                      onTap: () => null,
+                      onTap: () =>  Get.offAll(() => AllSingleCategoryProductsScreen(categoryId:categoryModel.categoryId,),
+                          transition: Transition.leftToRightWithFade),
                       child: SizedBox(
                         height: 100.h,
                         child: Column(
