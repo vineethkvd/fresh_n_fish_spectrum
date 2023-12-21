@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,8 +10,8 @@ import '../../Controller/email-sign-in-controller.dart';
 import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
-import '../main_page.dart';
 import 'email_validation.dart';
+import 'forgot_password_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -154,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                             alignment: Alignment.topRight,
                             child: TextButton(
                               onPressed: () {
-                                Get.offAll(() => const WelcomeScreen(),
+                                Get.offAll(() => const ForgotPasswordPage(),
                                     transition: Transition.leftToRightWithFade);
                               },
                               child: Text(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-up-screen.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
@@ -12,6 +11,7 @@ import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
 import '../main_page.dart';
+import 'forgot_password_screen.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -29,15 +29,15 @@ class _SignInState extends State<SignIn> {
 
   get emailTextController => _emailTextController;
   final EmailPassController _emailPassController =
-  Get.put(EmailPassController());
+      Get.put(EmailPassController());
   final GoogleSignInController _googleSignInController =
-  Get.put(GoogleSignInController());
+      Get.put(GoogleSignInController());
   Widget getTextField(
       {required String hint,
-        required var icons,
-        required var validator,
-        required var controller,
-        required var keyboardType}) {
+      required var icons,
+      required var validator,
+      required var controller,
+      required var keyboardType}) {
     return TextFormField(
       keyboardType: keyboardType,
       validator: validator,
@@ -59,7 +59,7 @@ class _SignInState extends State<SignIn> {
             borderSide: const BorderSide(color: Colors.transparent),
           ),
           contentPadding:
-          EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+              EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           filled: true,
           fillColor: const Color(0xFFF1F4FF),
           hintText: hint,
@@ -127,8 +127,8 @@ class _SignInState extends State<SignIn> {
                                   hint: "Email",
                                   icons: const Icon(Icons.email),
                                   validator: (value) => Validator.validateEmail(
-                                    email: value,
-                                  ),
+                                        email: value,
+                                      ),
                                   controller: _emailTextController,
                                   keyboardType: TextInputType.emailAddress),
                               SizedBox(
@@ -150,7 +150,9 @@ class _SignInState extends State<SignIn> {
                                 alignment: Alignment.topRight,
                                 child: TextButton(
                                   onPressed: () {
-                                    Get.off(const SignUp());
+                                    Get.offAll(() => const ForgotPasswordPage(),
+                                        transition:
+                                            Transition.leftToRightWithFade);
                                   },
                                   child: Text(
                                     'Forgot your password?',
@@ -176,11 +178,11 @@ class _SignInState extends State<SignIn> {
                                         shape: MaterialStatePropertyAll(
                                             RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    9.r))),
+                                                    BorderRadius.circular(
+                                                        9.r))),
                                         backgroundColor:
-                                        const MaterialStatePropertyAll(
-                                            Color(0xFF1F41BB))),
+                                            const MaterialStatePropertyAll(
+                                                Color(0xFF1F41BB))),
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         setState(() {
@@ -188,8 +190,8 @@ class _SignInState extends State<SignIn> {
                                         });
                                         try {
                                           UserCredential? userCredential =
-                                          await _emailPassController
-                                              .signinUser(
+                                              await _emailPassController
+                                                  .signinUser(
                                             _emailTextController.text,
                                             _passwordTextController.text,
                                           );
@@ -211,18 +213,18 @@ class _SignInState extends State<SignIn> {
                                     },
                                     child: _loading
                                         ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
+                                            color: Colors.white,
+                                          )
                                         : Text(
-                                      'Sign in',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppConstant.appTextColor,
-                                        fontSize: 20.sp,
-                                        height: 0.h,
-                                        fontFamily: 'Roboto-Bold',
-                                      ),
-                                    ),
+                                            'Sign in',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: AppConstant.appTextColor,
+                                              fontSize: 20.sp,
+                                              height: 0.h,
+                                              fontFamily: 'Roboto-Bold',
+                                            ),
+                                          ),
                                   )),
                             ],
                           ),
@@ -252,7 +254,7 @@ class _SignInState extends State<SignIn> {
                             width: 10.w,
                           ),
                           GestureDetector(
-                            onTap: () => Get.to(()=>SendOtp()),
+                            onTap: () => Get.to(() => SendOtp()),
                             child: SizedBox(
                               width: 60.w,
                               height: 44.h,
