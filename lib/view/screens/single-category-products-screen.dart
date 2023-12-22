@@ -8,8 +8,10 @@ import 'package:fresh_n_fish_spectrum/View/main_page.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
+import '../../Controller/email-sign-in-controller.dart';
 import '../../Models/product-model.dart';
 import '../../Utils/app-constant.dart';
+import '../../controller/get-category-products-controller.dart';
 import 'product-deatils-screen.dart';
 
 class AllSingleCategoryProductsScreen extends StatefulWidget {
@@ -23,6 +25,8 @@ class AllSingleCategoryProductsScreen extends StatefulWidget {
 
 class _AllSingleCategoryProductsScreenState
     extends State<AllSingleCategoryProductsScreen> {
+  final GetCategoryProductDataController _getCategoryProductDataController =
+      Get.put(GetCategoryProductDataController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,145 +54,142 @@ class _AllSingleCategoryProductsScreenState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection('products')
-                    .where('categoryId', isEqualTo: widget.categoryId)
-                    .get(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text("Error"),
-                    );
-                  }
+              FutureBuilder<List<QueryDocumentSnapshot<Object?>>>(
+                future: _getCategoryProductDataController.getCategoryProductData(widget.categoryId),
+                builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      height: Get.height / 5,
-                      child: Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
-                    );
-                  }
+                    // Return a loading indicator or placeholder widget
+                    return SizedBox(
+                        width: 20.w,
+                        height: 20.h,
+                        child:
+                            const Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasError) {
+                    // Handle error
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    // Data has been loaded successfully
+                    List<QueryDocumentSnapshot<Object?>> data = snapshot.data!;
+                    int dataLength = data.length;
 
-                  if (snapshot.data!.docs.isEmpty) {
-                    return Center(
-                      child: Text("No category found!"),
-                    );
-                  }
+                    // Rest of your widget tree using the 'data'
 
-                  if (snapshot.data != null) {
-                    return GridView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 3,
-                        crossAxisSpacing: 3,
-                        childAspectRatio: 1.19,
-                      ),
-                      itemBuilder: (context, index) {
-                        final productData = snapshot.data!.docs[index];
-                        ProductModel productModel = ProductModel(
-                          productId: productData['productId'],
-                          categoryId: productData['categoryId'],
-                          productName: productData['productName'],
-                          categoryName: productData['categoryName'],
-                          salePrice: productData['salePrice'].toString(),
-                          fullPrice: productData['fullPrice'].toString(),
-                          productImages: productData['productImages'],
-                          deliveryTime: productData['deliveryTime'],
-                          isSale: productData['isSale'],
-                          productDescription: productData['productDescription'],
-                          createdAt: productData['createdAt'],
-                          updatedAt: productData['updatedAt'],
-                        );
-
-                        return Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black26,
-                                width: 2.0.w,
-                              ),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15.r),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey.withOpacity(.5),
-                                    offset: const Offset(3, 2),
-                                    blurRadius: 7.r)
-                              ]),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.off(ProductDetailsScreen(
-                                      productModel: productModel));
-                                },
-                                child: SizedBox(
-                                  width: 150.w,
-                                  height: 150.h,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13.0),
-                                    child: Image.network(
-                                      productModel.productImages[0],
-                                      width: double.infinity,
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                        itemCount: dataLength,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5,
+                          childAspectRatio: 0.80,
+                        ),
+                        itemBuilder: (context, index) {
+                          final productData = data[index];
+                          ProductModel productModel = ProductModel(
+                            productId: productData['productId'],
+                            categoryId: productData['categoryId'],
+                            productName: productData['productName'],
+                            categoryName: productData['categoryName'],
+                            salePrice: productData['salePrice'].toString(),
+                            fullPrice: productData['fullPrice'].toString(),
+                            productImages: productData['productImages'],
+                            deliveryTime: productData['deliveryTime'],
+                            isSale: productData['isSale'],
+                            productDescription: productData['productDescription'],
+                            createdAt: productData['createdAt'],
+                            updatedAt: productData['updatedAt'],
+                          );
+                          return Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black26,
+                                  width: 2.0.w,
+                                ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(.5),
+                                      offset: const Offset(3, 2),
+                                      blurRadius: 7.r)
+                                ]),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => ProductDetailsScreen(
+                                        productModel: productModel));
+                                  },
+                                  child: SizedBox(
+                                    width: 150.w,
+                                    height: 150.h,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(13.0.w),
+                                      child: Image.network(
+                                        productModel.productImages[0],
+                                        width: double.infinity,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  productModel.productName,
-                                  style: TextStyle(
-                                      color: const Color(0xFF505050),
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400),
+                                Flexible(
+                                  child: Text(
+                                    "${productModel.productName}",
+                                    style: TextStyle(
+                                        color: const Color(0xFF505050),
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding:  EdgeInsets.only(left: 13.0.w),
-                                    child: Text(
-                                      ' ₹ ${productModel.fullPrice}',
-                                      style: TextStyle(
-                                          color: const Color(0xFFCF1919),
-                                          fontFamily: 'Poppins',
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400),
-                                    ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Flexible(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 13.0.w),
+                                        child: Text(
+                                          ' ₹ ${productModel.fullPrice}',
+                                          style: TextStyle(
+                                              color: const Color(0xFFCF1919),
+                                              fontFamily: 'Poppins',
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 30.w,
+                                      ),
+                                      Flexible(
+                                        child: CircleAvatar(
+                                          radius: 20.0,
+                                          backgroundColor:
+                                              const Color(0xFF660018),
+                                          child: IconButton(
+                                              icon: const Icon(
+                                                  Icons.add_shopping_cart,
+                                                  color: Colors.white),
+                                              onPressed: () async {}),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: 30.w,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0.w),
-                                    child: CircleAvatar(
-                                      backgroundColor: const Color(0xFF660018),
-                                      child: IconButton(
-                                          icon: const Icon(Icons.add_shopping_cart,
-                                              color: Colors.white),
-                                          onPressed: () async {
-
-                                          }),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }
-
-                  return Container();
                 },
               ),
             ],
