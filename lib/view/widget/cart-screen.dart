@@ -11,6 +11,7 @@ import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
 import '../main_page.dart';
+import '../screens/checkout-screen.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -252,7 +253,7 @@ class _CartPageState extends State<CartPage> {
                         style: TextStyle(color: AppConstant.appTextColor),
                       ),
                       onPressed: () {
-                        // Get.to(() => CheckOutScreen());
+                        Get.to(() => CheckoutPage());
                       },
                     ),
                   ),
