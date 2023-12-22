@@ -30,7 +30,7 @@ class _CartPageState extends State<CartPage> {
           leading: IconButton(
               onPressed: () => Get.offAll(() => const MainPage(),
                   transition: Transition.leftToRightWithFade),
-              icon: Icon(CupertinoIcons.back, color: Colors.white)),
+              icon: const Icon(CupertinoIcons.back, color: Colors.white)),
           centerTitle: true,
           title: Text("Cart page",
               style: TextStyle(
