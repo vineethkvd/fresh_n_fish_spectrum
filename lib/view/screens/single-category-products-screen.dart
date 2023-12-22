@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -6,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/View/main_page.dart';
 import 'package:get/get.dart';
-import 'package:image_card/image_card.dart';
-
-import '../../Controller/email-sign-in-controller.dart';
 import '../../Models/product-model.dart';
 import '../../Utils/app-constant.dart';
 import '../../controller/get-category-products-controller.dart';

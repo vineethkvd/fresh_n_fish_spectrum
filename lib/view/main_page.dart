@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/Utils/app-constant.dart';
 import 'package:fresh_n_fish_spectrum/View/Widget/banner-widget.dart';
+import 'package:fresh_n_fish_spectrum/view/widget/cart-screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -75,9 +76,8 @@ class _MainPageState extends State<MainPage> {
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: IconButton(
-                  onPressed: () {
-                    return null;
-                  },
+                  onPressed: () => Get.offAll(() => const CartPage(),
+                      transition: Transition.leftToRightWithFade),
                   icon: Icon(
                     CupertinoIcons.cart,
                     color: Colors.white,
