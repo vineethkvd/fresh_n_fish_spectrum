@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../Utils/app-constant.dart';
+import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
 import '../main_page.dart';
 
@@ -20,6 +21,8 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   User? user = FirebaseAuth.instance.currentUser;
+  final ProductPriceController _productPriceController =
+      Get.put(ProductPriceController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -53,7 +56,8 @@ class _CartPageState extends State<CartPage> {
                       .doc(user!.uid)
                       .collection('cartOrders')
                       .snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
                       return Center(
                         child: Text("Error"),
@@ -92,7 +96,8 @@ class _CartPageState extends State<CartPage> {
                               productImages: productData['productImages'],
                               deliveryTime: productData['deliveryTime'],
                               isSale: productData['isSale'],
-                              productDescription: productData['productDescription'],
+                              productDescription:
+                                  productData['productDescription'],
                               createdAt: productData['createdAt'],
                               updatedAt: productData['updatedAt'],
                               productQuantity: productData['productQuantity'],
@@ -101,7 +106,7 @@ class _CartPageState extends State<CartPage> {
                             );
 
                             //calculate price
-                            // productPriceController.fetchProductPrice();
+                            _productPriceController.fetchProductPrice();
                             return SwipeActionCell(
                               key: ObjectKey(cartModel.productId),
                               trailingActions: [
@@ -127,66 +132,84 @@ class _CartPageState extends State<CartPage> {
                                 child: ListTile(
                                   leading: CircleAvatar(
                                     backgroundColor: AppConstant.appMainColor,
-                                    backgroundImage:
-                                    NetworkImage(cartModel.productImages[0]),
+                                    backgroundImage: NetworkImage(
+                                        cartModel.productImages[0]),
                                   ),
                                   title: Text(cartModel.productName),
                                   subtitle: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text("Price : ${cartModel.productTotalPrice.toString()}"),
-                                      Row(children: [GestureDetector(
-                                        onTap: () async {
-                                          if (cartModel.productQuantity > 1) {
-                                            await FirebaseFirestore.instance
-                                                .collection('cart')
-                                                .doc(user!.uid)
-                                                .collection('cartOrders')
-                                                .doc(cartModel.productId)
-                                                .update({
-                                              'productQuantity':
-                                              cartModel.productQuantity - 1,
-                                              'productTotalPrice':
-                                              (double.parse(cartModel.fullPrice) *
-                                                  (cartModel.productQuantity - 1))
-                                            });
-                                          }
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 14.0,
-                                          backgroundColor: AppConstant.appMainColor,
-                                          child: Text('-'),
-                                        ),
-                                      ),
-                                        SizedBox(
-                                          width: Get.width / 20.0,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            if (cartModel.productQuantity > 0) {
-                                              await FirebaseFirestore.instance
-                                                  .collection('cart')
-                                                  .doc(user!.uid)
-                                                  .collection('cartOrders')
-                                                  .doc(cartModel.productId)
-                                                  .update({
-                                                'productQuantity':
-                                                cartModel.productQuantity + 1,
-                                                'productTotalPrice':
-                                                double.parse(cartModel.fullPrice) +
-                                                    double.parse(cartModel.fullPrice) *
-                                                        (cartModel.productQuantity)
-                                              });
-                                            }
-                                          },
-                                          child: CircleAvatar(
-                                            radius: 14.0,
-                                            backgroundColor: AppConstant.appMainColor,
-                                            child: Text('+'),
+                                      Text(
+                                          "Price : ${cartModel.productTotalPrice.toString()}"),
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (cartModel.productQuantity >
+                                                  1) {
+                                                await FirebaseFirestore.instance
+                                                    .collection('cart')
+                                                    .doc(user!.uid)
+                                                    .collection('cartOrders')
+                                                    .doc(cartModel.productId)
+                                                    .update({
+                                                  'productQuantity': cartModel
+                                                          .productQuantity -
+                                                      1,
+                                                  'productTotalPrice': (double
+                                                          .parse(cartModel
+                                                              .fullPrice) *
+                                                      (cartModel
+                                                              .productQuantity -
+                                                          1))
+                                                });
+                                              }
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 14.0,
+                                              backgroundColor:
+                                                  AppConstant.appMainColor,
+                                              child: Text('-'),
+                                            ),
                                           ),
-                                        ),],),
-
-                                      Text("Quantity : ${cartModel.productQuantity}")
+                                          SizedBox(
+                                            width: Get.width / 20.0,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (cartModel.productQuantity >
+                                                  0) {
+                                                await FirebaseFirestore.instance
+                                                    .collection('cart')
+                                                    .doc(user!.uid)
+                                                    .collection('cartOrders')
+                                                    .doc(cartModel.productId)
+                                                    .update({
+                                                  'productQuantity': cartModel
+                                                          .productQuantity +
+                                                      1,
+                                                  'productTotalPrice': double
+                                                          .parse(cartModel
+                                                              .fullPrice) +
+                                                      double.parse(cartModel
+                                                              .fullPrice) *
+                                                          (cartModel
+                                                              .productQuantity)
+                                                });
+                                              }
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 14.0,
+                                              backgroundColor:
+                                                  AppConstant.appMainColor,
+                                              child: Text('+'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                          "Quantity : ${cartModel.productQuantity}")
                                     ],
                                   ),
                                 ),
@@ -201,6 +224,42 @@ class _CartPageState extends State<CartPage> {
                   },
                 ),
               ]),
+        ),
+        bottomNavigationBar: Container(
+          margin: EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(
+                () => Text(
+                  " Total ₹ : ${_productPriceController.totalPrice.value.toStringAsFixed(1)} ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  child: Container(
+                    width: Get.width / 2.0,
+                    height: Get.height / 18,
+                    decoration: BoxDecoration(
+                      color: AppConstant.appScendoryColor,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: TextButton(
+                      child: const Text(
+                        "Checkout",
+                        style: TextStyle(color: AppConstant.appTextColor),
+                      ),
+                      onPressed: () {
+                        // Get.to(() => CheckOutScreen());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
