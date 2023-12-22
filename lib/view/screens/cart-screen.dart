@@ -11,7 +11,7 @@ import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
 import '../main_page.dart';
-import '../screens/checkout-screen.dart';
+import 'checkout-screen.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -24,6 +24,9 @@ class _CartPageState extends State<CartPage> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController _productPriceController =
       Get.put(ProductPriceController());
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -233,7 +236,7 @@ class _CartPageState extends State<CartPage> {
             children: [
               Obx(
                 () => Text(
-                  " Total ₹ : ${_productPriceController.totalPrice.value.toStringAsFixed(1)} ",
+                  " Total ₹ : ${_productPriceController.totalPrice.value.toStringAsFixed(1)} rs",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

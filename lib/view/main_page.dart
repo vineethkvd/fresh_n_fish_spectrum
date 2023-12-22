@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/Utils/app-constant.dart';
 import 'package:fresh_n_fish_spectrum/View/Widget/banner-widget.dart';
-import 'package:fresh_n_fish_spectrum/view/widget/cart-screen.dart';
+import 'package:fresh_n_fish_spectrum/view/screens/cart-screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
