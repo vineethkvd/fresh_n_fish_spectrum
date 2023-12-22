@@ -99,7 +99,7 @@ void placeOrder({
         "Thank you for your order!",
         backgroundColor: AppConstant.appMainColor,
         colorText: Colors.white,
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
       );
 
       EasyLoading.dismiss();
