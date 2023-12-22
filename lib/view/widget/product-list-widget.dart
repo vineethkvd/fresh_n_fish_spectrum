@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fresh_n_fish_spectrum/View/Screens/product-deatils-screen.dart';
@@ -8,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../Controller/get-product-data-controller.dart';
 
 import '../../Models/product-model.dart';
+import '../../controller/get-cart-product-controller.dart';
 
 class GetProductWidget extends StatefulWidget {
   const GetProductWidget({super.key});
@@ -19,6 +21,8 @@ class GetProductWidget extends StatefulWidget {
 class _GetProductWidgetState extends State<GetProductWidget> {
   final GetProductDataController _getProductDataController =
   Get.put(GetProductDataController());
+  User? user = FirebaseAuth.instance.currentUser;
+  final CartItemController _CartItemController = Get.put(CartItemController());
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<QueryDocumentSnapshot<Object?>>>(
@@ -136,7 +140,12 @@ class _GetProductWidgetState extends State<GetProductWidget> {
                               child: IconButton(
                                   icon: const Icon(Icons.add_shopping_cart,
                                       color: Colors.white),
-                                  onPressed: () async {}),
+                                  onPressed: () async {
+                                    await _CartItemController
+                                        .checkProductExistence(
+                                        uId: user!.uid,
+                                        productModel: productModel);
+                                  }),
                             ),
                           )
                         ],
