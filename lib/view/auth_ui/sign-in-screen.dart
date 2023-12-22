@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
+import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
@@ -25,6 +27,7 @@ class _SignInState extends State<SignIn> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   bool _loading = false;
+  bool passwordVisible = false;
   get passwordTextController => _passwordTextController;
 
   get emailTextController => _emailTextController;
@@ -34,15 +37,19 @@ class _SignInState extends State<SignIn> {
       Get.put(GoogleSignInController());
   Widget getTextField(
       {required String hint,
-      required var icons,
+      bool obstxt = false,
+      var suficons,
       required var validator,
+      required var icons,
       required var controller,
       required var keyboardType}) {
     return TextFormField(
+      obscureText: obstxt,
       keyboardType: keyboardType,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
+          suffixIcon: suficons,
           errorStyle: const TextStyle(
             color: Colors.yellow,
             fontSize: null,
@@ -77,6 +84,15 @@ class _SignInState extends State<SignIn> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstant.appScendoryColor,
+        appBar: AppBar(
+          backgroundColor: AppConstant.appScendoryColor,
+          elevation: 0,
+          leading: IconButton(
+              onPressed: () => Get.offAll(() => const WelcomeScreen(),
+                  transition: Transition.leftToRightWithFade),
+              icon: const Icon(CupertinoIcons.back, color: Colors.white)),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: SizedBox(
             width: Get.width,
@@ -86,7 +102,7 @@ class _SignInState extends State<SignIn> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 60.0).w,
+                    margin: const EdgeInsets.only(top: 50.0).w,
                     width: MediaQuery.of(context).size.width,
                     child: Column(children: [
                       Text(
@@ -135,6 +151,18 @@ class _SignInState extends State<SignIn> {
                                 height: 26.h,
                               ),
                               getTextField(
+                                  suficons: IconButton(
+                                      onPressed: () {
+                                        setState(
+                                          () {
+                                            passwordVisible = !passwordVisible;
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off)),
+                                  obstxt: passwordVisible,
                                   hint: "Password",
                                   icons: const Icon(Icons.lock),
                                   validator: (value) =>
@@ -234,7 +262,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    margin: const EdgeInsets.only(bottom: 30.0).w,
+                    margin: const EdgeInsets.only(bottom: 90.0).w,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

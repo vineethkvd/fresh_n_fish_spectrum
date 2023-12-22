@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,20 +27,25 @@ class _SignUpState extends State<SignUp> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final GoogleSignInController _googleSignInController =
-  Get.put(GoogleSignInController());
+      Get.put(GoogleSignInController());
   final EmailPassController _emailPassController =
-  Get.put(EmailPassController());
+      Get.put(EmailPassController());
+  bool passwordVisible = false;
   Widget getTextField(
       {required String hint,
-        required var icons,
-        required var validator,
-        required var controller,
-        required var keyboardType}) {
+      required var icons,
+      bool obstxt = false,
+      var suficons,
+      required var validator,
+      required var controller,
+      required var keyboardType}) {
     return TextFormField(
+      obscureText: obstxt,
       keyboardType: keyboardType,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
+          suffixIcon: suficons,
           errorStyle: const TextStyle(
             color: Colors.yellow,
             fontSize: null,
@@ -56,7 +62,7 @@ class _SignUpState extends State<SignUp> {
             borderSide: const BorderSide(color: Colors.transparent),
           ),
           contentPadding:
-          EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+              EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           filled: true,
           fillColor: const Color(0xFFF1F4FF),
           hintText: hint,
@@ -74,13 +80,22 @@ class _SignUpState extends State<SignUp> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstant.appScendoryColor,
+        appBar: AppBar(
+          backgroundColor: AppConstant.appScendoryColor,
+          elevation: 0,
+          leading: IconButton(
+              onPressed: () => Get.offAll(() => const WelcomeScreen(),
+                  transition: Transition.leftToRightWithFade),
+              icon: const Icon(CupertinoIcons.back, color: Colors.white)),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: SizedBox(
             width: Get.width,
             height: Get.height,
             child: Column(children: [
               Container(
-                margin: const EdgeInsets.only(top: 60.0).w,
+                margin: const EdgeInsets.only(top: 70.0).w,
                 child: Column(children: [
                   Text(
                     'Create Account',
@@ -121,8 +136,8 @@ class _SignUpState extends State<SignUp> {
                               hint: "Name",
                               icons: const Icon(Icons.person_outline),
                               validator: (value) => Validator.validateName(
-                                name: value,
-                              ),
+                                    name: value,
+                                  ),
                               controller: _nameTextController),
                           SizedBox(
                             height: 26.h,
@@ -132,19 +147,31 @@ class _SignUpState extends State<SignUp> {
                               hint: "Email",
                               icons: const Icon(Icons.email),
                               validator: (value) => Validator.validateEmail(
-                                email: value,
-                              ),
+                                    email: value,
+                                  ),
                               controller: _emailTextController),
                           SizedBox(
                             height: 26.h,
                           ),
                           getTextField(
+                              obstxt: passwordVisible,
+                              suficons: IconButton(
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        passwordVisible = !passwordVisible;
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off)),
                               keyboardType: TextInputType.visiblePassword,
                               hint: "Password",
                               icons: const Icon(Icons.lock),
                               validator: (value) => Validator.validatePassword(
-                                password: value,
-                              ),
+                                    password: value,
+                                  ),
                               controller: _passwordTextController),
                           SizedBox(
                             height: 15.h,
@@ -180,10 +207,10 @@ class _SignUpState extends State<SignUp> {
                                     shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(9.r))),
+                                                BorderRadius.circular(9.r))),
                                     backgroundColor:
-                                    const MaterialStatePropertyAll(
-                                        Color(0xFF1F41BB))),
+                                        const MaterialStatePropertyAll(
+                                            Color(0xFF1F41BB))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     try {
@@ -195,11 +222,11 @@ class _SignUpState extends State<SignUp> {
                                       if (_emailPassController.currentUser !=
                                           null) {
                                         Get.off(
-                                                () => EmailValidationScreen(
+                                            () => EmailValidationScreen(
                                                 user: _emailPassController
                                                     .currentUser!),
                                             transition:
-                                            Transition.leftToRightWithFade);
+                                                Transition.leftToRightWithFade);
                                       } else {
                                         // No user is currently authenticated
                                         Get.snackbar('No user is',
@@ -229,10 +256,10 @@ class _SignUpState extends State<SignUp> {
               ),
               Container(
                 alignment: Alignment.center,
-                margin: const EdgeInsets.only(bottom: 30.0).w,
+                margin: const EdgeInsets.only(bottom: 90.0).w,
                 width: MediaQuery.of(context).size.width,
                 child:
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   GestureDetector(
                     onTap: () {
                       _googleSignInController.signInWithGoogle();
@@ -248,7 +275,7 @@ class _SignUpState extends State<SignUp> {
                     width: 10.w,
                   ),
                   GestureDetector(
-                    onTap: () => Get.to(()=>SendOtp()),
+                    onTap: () => Get.to(() => SendOtp()),
                     child: SizedBox(
                       width: 60.w,
                       height: 44.h,
