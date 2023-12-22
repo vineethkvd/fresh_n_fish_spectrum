@@ -167,7 +167,7 @@ class _CartPageState extends State<CartPage> {
                                                 });
                                               }
                                             },
-                                            child: CircleAvatar(
+                                            child: const CircleAvatar(
                                               radius: 14.0,
                                               backgroundColor:
                                                   AppConstant.appMainColor,
