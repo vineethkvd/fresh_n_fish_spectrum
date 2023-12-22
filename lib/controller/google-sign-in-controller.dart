@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
-import 'package:fresh_n_fish_spectrum/View/main_page.dart';
+import 'package:fresh_n_fish_spectrum/View/main-page.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

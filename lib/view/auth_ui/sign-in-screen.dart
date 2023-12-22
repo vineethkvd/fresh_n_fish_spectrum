@@ -10,7 +10,7 @@ import '../../Controller/email-sign-in-controller.dart';
 import '../../Controller/google-sign-in-controller.dart';
 import '../../Services/Validator/validator.dart';
 import '../../Utils/app-constant.dart';
-import '../main_page.dart';
+import '../main-page.dart';
 import 'forgot_password_screen.dart';
 
 class SignIn extends StatefulWidget {

@@ -12,7 +12,7 @@ import '../../controller/cart-price-controller.dart';
 import '../../controller/place-order-controller.dart';
 import '../../models/cart-model.dart';
 import '../../services/get-customer-device-token.dart';
-import '../main_page.dart';
+import '../main-page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});

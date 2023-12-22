@@ -7,7 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../Utils/app-constant.dart';
-import '../View/main_page.dart';
+import '../View/main-page.dart';
 import '../models/order-model.dart';
 import '../services/genrate-order-id-service.dart';
 

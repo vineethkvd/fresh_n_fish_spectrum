@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/main_page.dart';
+import 'package:fresh_n_fish_spectrum/View/main-page.dart';
 import 'package:get/get.dart';
 import '../../Models/product-model.dart';
 import '../../Utils/app-constant.dart';

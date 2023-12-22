@@ -12,7 +12,7 @@ import '../../Utils/app-constant.dart';
 import '../../controller/get-cart-product-controller.dart';
 import '../../models/cart-model.dart';
 import '../auth_ui/sentopt.dart';
-import '../main_page.dart';
+import '../main-page.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   ProductModel productModel;

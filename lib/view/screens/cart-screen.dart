@@ -10,7 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
-import '../main_page.dart';
+import '../main-page.dart';
 import 'checkout-screen.dart';
 
 class CartPage extends StatefulWidget {

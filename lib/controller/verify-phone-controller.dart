@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../Models/user-model.dart';
 import '../View/auth_ui/verifyotp.dart';
-import '../View/main_page.dart';
+import '../View/main-page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'get-device-token-controller.dart'; // Import Firestore

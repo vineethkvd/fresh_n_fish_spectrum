@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../Controller/email-validation-controller.dart';
 import '../../Utils/app-constant.dart';
-import '../main_page.dart';
+import '../main-page.dart';
 
 class EmailValidationScreen extends StatefulWidget {
   final User user;
