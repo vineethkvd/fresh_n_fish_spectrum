@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../Utils/app-constant.dart';
+import '../../models/cart-model.dart';
 import '../main_page.dart';
 
 class CartPage extends StatefulWidget {
@@ -15,6 +19,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,7 +46,162 @@ class _CartPageState extends State<CartPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: []),
+              children: [
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('cart')
+                      .doc(user!.uid)
+                      .collection('cartOrders')
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Error"),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        height: Get.height / 5,
+                        child: Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.data!.docs.isEmpty) {
+                      return Center(
+                        child: Text("No products found!"),
+                      );
+                    }
+
+                    if (snapshot.data != null) {
+                      return Container(
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final productData = snapshot.data!.docs[index];
+                            CartModel cartModel = CartModel(
+                              productId: productData['productId'],
+                              categoryId: productData['categoryId'],
+                              productName: productData['productName'],
+                              categoryName: productData['categoryName'],
+                              salePrice: productData['salePrice'],
+                              fullPrice: productData['fullPrice'],
+                              productImages: productData['productImages'],
+                              deliveryTime: productData['deliveryTime'],
+                              isSale: productData['isSale'],
+                              productDescription: productData['productDescription'],
+                              createdAt: productData['createdAt'],
+                              updatedAt: productData['updatedAt'],
+                              productQuantity: productData['productQuantity'],
+                              productTotalPrice: double.parse(
+                                  productData['productTotalPrice'].toString()),
+                            );
+
+                            //calculate price
+                            // productPriceController.fetchProductPrice();
+                            return SwipeActionCell(
+                              key: ObjectKey(cartModel.productId),
+                              trailingActions: [
+                                SwipeAction(
+                                  title: "Delete",
+                                  forceAlignmentToBoundary: true,
+                                  performsFirstActionWithFullSwipe: true,
+                                  onTap: (CompletionHandler handler) async {
+                                    print('deleted');
+
+                                    await FirebaseFirestore.instance
+                                        .collection('cart')
+                                        .doc(user!.uid)
+                                        .collection('cartOrders')
+                                        .doc(cartModel.productId)
+                                        .delete();
+                                  },
+                                )
+                              ],
+                              child: Card(
+                                elevation: 5,
+                                color: AppConstant.appTextColor,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: AppConstant.appMainColor,
+                                    backgroundImage:
+                                    NetworkImage(cartModel.productImages[0]),
+                                  ),
+                                  title: Text(cartModel.productName),
+                                  subtitle: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(cartModel.productTotalPrice.toString()),
+                                      SizedBox(
+                                        width: Get.width / 20.0,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          if (cartModel.productQuantity > 1) {
+                                            await FirebaseFirestore.instance
+                                                .collection('cart')
+                                                .doc(user!.uid)
+                                                .collection('cartOrders')
+                                                .doc(cartModel.productId)
+                                                .update({
+                                              'productQuantity':
+                                              cartModel.productQuantity - 1,
+                                              'productTotalPrice':
+                                              (double.parse(cartModel.fullPrice) *
+                                                  (cartModel.productQuantity - 1))
+                                            });
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 14.0,
+                                          backgroundColor: AppConstant.appMainColor,
+                                          child: Text('-'),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: Get.width / 20.0,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          if (cartModel.productQuantity > 0) {
+                                            await FirebaseFirestore.instance
+                                                .collection('cart')
+                                                .doc(user!.uid)
+                                                .collection('cartOrders')
+                                                .doc(cartModel.productId)
+                                                .update({
+                                              'productQuantity':
+                                              cartModel.productQuantity + 1,
+                                              'productTotalPrice':
+                                              double.parse(cartModel.fullPrice) +
+                                                  double.parse(cartModel.fullPrice) *
+                                                      (cartModel.productQuantity)
+                                            });
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 14.0,
+                                          backgroundColor: AppConstant.appMainColor,
+                                          child: Text('+'),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+
+                    return Container();
+                  },
+                ),
+              ]),
         ),
       ),
     );
