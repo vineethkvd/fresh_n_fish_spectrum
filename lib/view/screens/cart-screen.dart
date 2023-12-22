@@ -10,8 +10,6 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
-import '../../services/get-customer-device-token.dart';
-import '../../services/place-order-service.dart';
 import '../main_page.dart';
 import 'checkout-screen.dart';
 

@@ -9,9 +9,9 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
+import '../../controller/place-order-controller.dart';
 import '../../models/cart-model.dart';
 import '../../services/get-customer-device-token.dart';
-import '../../services/place-order-service.dart';
 import '../main_page.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -25,6 +25,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController productPriceController =
       Get.put(ProductPriceController());
+  final PlaceOrderController _placeOrderController =
+  Get.put(PlaceOrderController());
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -116,7 +118,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                     //place order serice
 
-                    placeOrder(
+                    _placeOrderController.placeOrder(
                       context: context,
                       customerName: name,
                       customerPhone: phone,
