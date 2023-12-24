@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
+
 import 'package:get/get.dart';
 
-import '../../Controller/email-validation-controller.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/email-validation-controller.dart';
+import '../../utils/app-constant.dart';
 import '../main-page.dart';
 
 class EmailValidationScreen extends StatefulWidget {

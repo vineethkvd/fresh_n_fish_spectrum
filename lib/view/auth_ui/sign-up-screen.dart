@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sentopt.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Controller/email-sign-in-controller.dart';
-import '../../Controller/google-sign-in-controller.dart';
-import '../../Services/Validator/validator.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/email-sign-in-controller.dart';
+import '../../controller/google-sign-in-controller.dart';
+import '../../services/validator/validator.dart';
+import '../../utils/app-constant.dart';
 import 'email_validation.dart';
 import 'forgot_password_screen.dart';
 
@@ -30,11 +30,10 @@ class _SignUpState extends State<SignUp> {
       Get.put(GoogleSignInController());
   final EmailPassController _emailPassController =
       Get.put(EmailPassController());
-  bool passwordVisible = false;
   Widget getTextField(
       {required String hint,
       required var icons,
-      bool obstxt = false,
+        bool obstxt = null ?? false,
       var suficons,
       required var validator,
       required var controller,
@@ -80,6 +79,7 @@ class _SignUpState extends State<SignUp> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstant.appScendoryColor,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: AppConstant.appScendoryColor,
           elevation: 0,
@@ -153,53 +153,31 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             height: 26.h,
                           ),
-                          getTextField(
-                              obstxt: passwordVisible,
-                              suficons: IconButton(
+                          Obx(() => getTextField(
+                                obstxt: _emailPassController.passwordVisible.value,
+                                suficons: IconButton(
                                   onPressed: () {
-                                    setState(
-                                      () {
-                                        passwordVisible = !passwordVisible;
-                                      },
-                                    );
+                                    _emailPassController
+                                        .updateVisibility(); // Use the controller method to toggle visibility
                                   },
-                                  icon: Icon(passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off)),
-                              keyboardType: TextInputType.visiblePassword,
-                              hint: "Password",
-                              icons: const Icon(Icons.lock),
-                              validator: (value) => Validator.validatePassword(
-                                    password: value,
-                                  ),
-                              controller: _passwordTextController),
-                          SizedBox(
-                            height: 15.h,
-                          ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            child: TextButton(
-                              onPressed: () {
-                                Get.offAll(() => const ForgotPasswordPage(),
-                                    transition: Transition.leftToRightWithFade);
-                              },
-                              child: Text(
-                                'Forgot your password?',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Roboto-Regular',
-                                  color: AppConstant.appTextColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  height: 0.h,
+                                  icon: Icon(
+                                      _emailPassController.passwordVisible.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off),
                                 ),
-                              ),
-                            ),
-                          ),
+                                keyboardType: TextInputType.visiblePassword,
+                                hint: "Password",
+                                icons: const Icon(Icons.lock),
+                                validator: (value) =>
+                                    Validator.validatePassword(
+                                  password: value,
+                                ),
+                                controller: _passwordTextController,
+                              )),
                           SizedBox(
                             height: 15.h,
                           ),
-                          SizedBox(
+                          Obx(() => SizedBox(
                               width: 357.w,
                               height: 50.h,
                               child: ElevatedButton(
@@ -213,6 +191,7 @@ class _SignUpState extends State<SignUp> {
                                             Color(0xFF1F41BB))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
+                                    _emailPassController.updateLoading();
                                     try {
                                       await _emailPassController.signupUser(
                                         _emailTextController.text,
@@ -234,20 +213,26 @@ class _SignUpState extends State<SignUp> {
                                       }
                                     } catch (e) {
                                       Get.snackbar('Error', e.toString());
+                                    } finally {
+                                      _emailPassController.updateLoading();
                                     }
                                   }
                                 },
-                                child: Text(
-                                  'Sign Up',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppConstant.appTextColor,
-                                    fontSize: 20.sp,
-                                    height: 0.h,
-                                    fontFamily: 'Roboto-Bold',
-                                  ),
-                                ),
-                              )),
+                                child: _emailPassController.loading.value
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        'Sign Up',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: AppConstant.appTextColor,
+                                          fontSize: 20.sp,
+                                          height: 0.h,
+                                          fontFamily: 'Roboto-Bold',
+                                        ),
+                                      ),
+                              ))),
                         ],
                       ),
                     ),
@@ -275,7 +260,7 @@ class _SignUpState extends State<SignUp> {
                     width: 10.w,
                   ),
                   GestureDetector(
-                    onTap: () => Get.to(() => SendOtp()),
+                    onTap: () => Get.to(() => const SendOtp()),
                     child: SizedBox(
                       width: 60.w,
                       height: 44.h,

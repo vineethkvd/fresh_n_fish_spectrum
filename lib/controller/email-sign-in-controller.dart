@@ -2,12 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../Models/user-model.dart';
-import '../View/auth_ui/welcome_screen.dart';
+import '../models/user-model.dart';
+import '../view/auth_ui/welcome_screen.dart';
 import 'get-device-token-controller.dart';
 
 class EmailPassController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  RxBool passwordVisible = true.obs;
+  RxBool loading = false.obs;
+  void updateLoading(){
+    loading.toggle();
+  }
+  void updateVisibility() {
+    passwordVisible.toggle(); // Use toggle method to toggle the value
+  }
 
   FirebaseAuth get auth => _auth;
 

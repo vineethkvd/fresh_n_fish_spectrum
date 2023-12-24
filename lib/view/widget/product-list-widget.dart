@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/Screens/product-deatils-screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
-import '../../Controller/get-product-data-controller.dart';
-
-import '../../Models/product-model.dart';
 import '../../controller/get-cart-product-controller.dart';
+import '../../controller/get-product-data-controller.dart';
+import '../../models/product-model.dart';
+import '../screens/product-deatils-screen.dart';
 
 class GetProductWidget extends StatefulWidget {
   const GetProductWidget({super.key});
@@ -33,7 +32,7 @@ class _GetProductWidgetState extends State<GetProductWidget> {
           return SizedBox(
               width: 20.w,
               height: 20.h,
-              child: const Center(child: CircularProgressIndicator()));
+              child: const Center(child: CupertinoActivityIndicator()));
         } else if (snapshot.hasError) {
           // Handle error
           return Text('Error: ${snapshot.error}');

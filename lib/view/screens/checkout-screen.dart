@@ -7,11 +7,11 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../controller/place-order-controller.dart';
 import '../../models/cart-model.dart';
 import '../../services/get-customer-device-token.dart';
+import '../../utils/app-constant.dart';
 import '../main-page.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -71,7 +71,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     controller: phoneController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Phone',
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
@@ -267,14 +267,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
           },
         ),
         bottomNavigationBar: Container(
-          margin: EdgeInsets.only(bottom: 5.0),
+          margin: const EdgeInsets.only(bottom: 5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Obx(
                 () => Text(
                   " Total ₹ : ${productPriceController.totalPrice.value.toStringAsFixed(1)} rs",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -288,7 +288,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: TextButton(
-                      child: Text(
+                      child: const Text(
                         "Confirm Order",
                         style: TextStyle(color: AppConstant.appTextColor),
                       ),

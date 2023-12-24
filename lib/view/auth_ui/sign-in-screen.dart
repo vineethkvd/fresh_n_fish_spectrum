@@ -3,15 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sentopt.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
-import '../../Controller/email-sign-in-controller.dart';
-import '../../Controller/google-sign-in-controller.dart';
-import '../../Services/Validator/validator.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/email-sign-in-controller.dart';
+import '../../controller/google-sign-in-controller.dart';
+import '../../services/validator/validator.dart';
+import '../../utils/app-constant.dart';
 import '../main-page.dart';
 import 'forgot_password_screen.dart';
 
@@ -26,8 +26,6 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-  bool _loading = false;
-  bool passwordVisible = false;
   get passwordTextController => _passwordTextController;
 
   get emailTextController => _emailTextController;
@@ -37,7 +35,7 @@ class _SignInState extends State<SignIn> {
       Get.put(GoogleSignInController());
   Widget getTextField(
       {required String hint,
-      bool obstxt = false,
+        bool obstxt = null ?? false,
       var suficons,
       required var validator,
       required var icons,
@@ -84,6 +82,7 @@ class _SignInState extends State<SignIn> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstant.appScendoryColor,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: AppConstant.appScendoryColor,
           elevation: 0,
@@ -150,27 +149,24 @@ class _SignInState extends State<SignIn> {
                               SizedBox(
                                 height: 26.h,
                               ),
-                              getTextField(
-                                  suficons: IconButton(
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            passwordVisible = !passwordVisible;
-                                          },
-                                        );
-                                      },
-                                      icon: Icon(passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                  obstxt: passwordVisible,
-                                  hint: "Password",
-                                  icons: const Icon(Icons.lock),
-                                  validator: (value) =>
-                                      Validator.validatePassword(
-                                        password: value,
-                                      ),
-                                  controller: _passwordTextController,
-                                  keyboardType: TextInputType.visiblePassword),
+                              Obx(() => getTextField(
+                                obstxt: _emailPassController.passwordVisible.value,
+                                suficons: IconButton(
+                                  onPressed: () {
+                                    _emailPassController.updateVisibility(); // Use the controller method to toggle visibility
+                                  },
+                                  icon: Icon(_emailPassController.passwordVisible.value
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                ),
+                                keyboardType: TextInputType.visiblePassword,
+                                hint: "Password",
+                                icons: const Icon(Icons.lock),
+                                validator: (value) => Validator.validatePassword(
+                                  password: value,
+                                ),
+                                controller: _passwordTextController,
+                              )),
                               SizedBox(
                                 height: 15.h,
                               ),
@@ -198,7 +194,7 @@ class _SignInState extends State<SignIn> {
                               SizedBox(
                                 height: 15.h,
                               ),
-                              SizedBox(
+                              Obx(() =>  SizedBox(
                                   width: 357.w,
                                   height: 50.h,
                                   child: ElevatedButton(
@@ -206,20 +202,18 @@ class _SignInState extends State<SignIn> {
                                         shape: MaterialStatePropertyAll(
                                             RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(
-                                                        9.r))),
+                                                BorderRadius.circular(
+                                                    9.r))),
                                         backgroundColor:
-                                            const MaterialStatePropertyAll(
-                                                Color(0xFF1F41BB))),
+                                        const MaterialStatePropertyAll(
+                                            Color(0xFF1F41BB))),
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        setState(() {
-                                          _loading = true;
-                                        });
+                                        _emailPassController.updateLoading();
                                         try {
                                           UserCredential? userCredential =
-                                              await _emailPassController
-                                                  .signinUser(
+                                          await _emailPassController
+                                              .signinUser(
                                             _emailTextController.text,
                                             _passwordTextController.text,
                                           );
@@ -233,27 +227,26 @@ class _SignInState extends State<SignIn> {
                                         } catch (e) {
                                           print(e);
                                         } finally {
-                                          setState(() {
-                                            _loading = false;
-                                          });
+                                          _emailPassController.updateLoading();
                                         }
                                       }
                                     },
-                                    child: _loading
+                                    child: _emailPassController.loading.value
                                         ? const CircularProgressIndicator(
-                                            color: Colors.white,
-                                          )
+                                      color: Colors.white,
+                                    )
                                         : Text(
-                                            'Sign in',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: AppConstant.appTextColor,
-                                              fontSize: 20.sp,
-                                              height: 0.h,
-                                              fontFamily: 'Roboto-Bold',
-                                            ),
-                                          ),
-                                  )),
+                                      'Sign in',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: AppConstant.appTextColor,
+                                        fontSize: 20.sp,
+                                        height: 0.h,
+                                        fontFamily: 'Roboto-Bold',
+                                      ),
+                                    ),
+                                  )))
+
                             ],
                           ),
                         ),

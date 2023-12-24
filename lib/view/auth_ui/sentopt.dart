@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
 import 'package:get/get.dart';
 
-import '../../Controller/verify-phone-controller.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/verify-phone-controller.dart';
+import '../../utils/app-constant.dart';
+
 
 
 class SendOtp extends StatefulWidget {
@@ -33,8 +34,8 @@ class _SendOtpState extends State<SendOtp> {
             fontSize: 18.sp,
             fontFamily: 'Roboto-Bold',
           )),
-          backgroundColor: Color(0xFF902A2A),
-          elevation: 2,
+          backgroundColor: AppConstant.appScendoryColor,
+          elevation: 0,
         ),
         body: SingleChildScrollView(
           child: Container(

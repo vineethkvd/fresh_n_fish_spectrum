@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../Models/user-model.dart';
-import '../View/auth_ui/verifyotp.dart';
-import '../View/main-page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/user-model.dart';
+import '../view/auth_ui/verifyotp.dart';
+import '../view/main-page.dart';
 import 'get-device-token-controller.dart'; // Import Firestore
 
 class SentOtpController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GetDeviceTokenController getDeviceTokenController =
-  Get.put(GetDeviceTokenController());
+      Get.put(GetDeviceTokenController());
 
   void sendOtp(String phoneNumber) async {
     try {
@@ -56,7 +56,8 @@ class SentOtpController extends GetxController {
       // Extracted user data and corrected the usage of userCredential
       UserModel userModel = UserModel(
         uId: userCredential.user!.uid,
-        username: userCredential.user!.displayName ?? 'test user', // Use an empty string as a fallback
+        username: userCredential.user!.displayName ??
+            'test user', // Use an empty string as a fallback
         email: userCredential.user!.email ?? 'testuser@gmail.com',
         phone: userCredential.user!.phoneNumber ?? '',
         userImg: userCredential.user!.photoURL ??

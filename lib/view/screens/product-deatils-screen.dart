@@ -1,17 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../Models/product-model.dart';
-import '../../Utils/app-constant.dart';
 import '../../controller/get-cart-product-controller.dart';
-import '../../models/cart-model.dart';
-import '../auth_ui/sentopt.dart';
+import '../../models/product-model.dart';
+
+import '../../utils/app-constant.dart';
 import '../main-page.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

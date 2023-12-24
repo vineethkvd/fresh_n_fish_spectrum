@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/main-page.dart';
 import 'package:get/get.dart';
-import '../../Models/product-model.dart';
-import '../../Utils/app-constant.dart';
 import '../../controller/get-category-products-controller.dart';
+import '../../models/product-model.dart';
+import '../../utils/app-constant.dart';
+import '../main-page.dart';
 import 'product-deatils-screen.dart';
 
 class AllSingleCategoryProductsScreen extends StatefulWidget {

@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sentopt.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sentopt.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Controller/verify-phone-controller.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/verify-phone-controller.dart';
+import '../../utils/app-constant.dart';
+
+
 
 class VerifyOtp extends StatefulWidget {
   final String verificationId;
@@ -27,8 +29,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
         backgroundColor: AppConstant.appScendoryColor,
         appBar: AppBar(
 
-          backgroundColor: Color(0xFF902A2A),
-          elevation: 2,
+          backgroundColor: AppConstant.appScendoryColor,
+          elevation: 0,
           leading: IconButton(onPressed: () => Get.offAll(() => const SendOtp(),
               transition: Transition.leftToRightWithFade), icon: Icon(CupertinoIcons.back,color: Colors.white)),
           centerTitle: true,

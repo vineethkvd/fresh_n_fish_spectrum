@@ -7,9 +7,9 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Utils/app-constant.dart';
 import '../../controller/cart-price-controller.dart';
 import '../../models/cart-model.dart';
+import '../../utils/app-constant.dart';
 import '../main-page.dart';
 import 'checkout-screen.dart';
 

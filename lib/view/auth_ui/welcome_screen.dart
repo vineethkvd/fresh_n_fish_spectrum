@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-in-screen.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/sign-up-screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sign-in-screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/sign-up-screen.dart';
+
 import 'package:get/route_manager.dart';
 
-import '../../Utils/app-constant.dart';
-
-
+import '../../utils/app-constant.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -62,7 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     SizedBox(
                       width: 323.w,
                       child: Text(
-                        'Explore all the existing job roles based on your interest and study major',
+                        'Explore all the existing deals based on your interest and study major',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -119,11 +118,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 backgroundColor: const MaterialStatePropertyAll(
                                   AppConstant.btnColorDark,
                                 ),
-                                overlayColor:
-                                    MaterialStateProperty.all(AppConstant.btnColor),
+                                overlayColor: MaterialStateProperty.all(
+                                    AppConstant.btnColor),
                                 shape: MaterialStatePropertyAll(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(9.r))),
+                                        borderRadius:
+                                            BorderRadius.circular(9.r))),
                               ),
                               onPressed: () {
                                 Get.offAll(() => const SignUp(),

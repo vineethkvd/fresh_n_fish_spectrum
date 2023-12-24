@@ -6,13 +6,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../Utils/app-constant.dart';
-import '../View/main-page.dart';
 import '../models/order-model.dart';
 import '../services/genrate-order-id-service.dart';
+import '../utils/app-constant.dart';
+import '../view/main-page.dart';
 
 class PlaceOrderController extends GetxController {
-
   void placeOrder({
     required BuildContext context,
     required String customerName,
@@ -51,7 +50,8 @@ class PlaceOrderController extends GetxController {
             createdAt: DateTime.now(),
             updatedAt: data['updatedAt'],
             productQuantity: data['productQuantity'],
-            productTotalPrice: double.parse(data['productTotalPrice'].toString()),
+            productTotalPrice:
+                double.parse(data['productTotalPrice'].toString()),
             customerId: user.uid,
             status: false,
             customerName: customerName,
@@ -113,5 +113,4 @@ class PlaceOrderController extends GetxController {
       }
     }
   }
-
 }

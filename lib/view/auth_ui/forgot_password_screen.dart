@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/View/auth_ui/welcome_screen.dart';
+import 'package:fresh_n_fish_spectrum/view/auth_ui/welcome_screen.dart';
+
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Controller/email-sign-in-controller.dart';
-import '../../Utils/app-constant.dart';
+import '../../controller/email-sign-in-controller.dart';
+import '../../utils/app-constant.dart';
+
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -38,8 +40,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 fontSize: 18.sp,
                 fontFamily: 'Roboto-Bold',
               )),
-          backgroundColor: Color(0xFF902A2A),
-          elevation: 2,
+          backgroundColor: AppConstant.appScendoryColor,
+          elevation: 0,
         ),
         body: Container(
           alignment: Alignment.center,
@@ -78,7 +80,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   horizontal: 16.w, vertical: 20.h),
                               filled: true,
                               fillColor: const Color(0xFFF1F4FF),
-                              hintText: "Enter your mobile number",
+                              hintText: "Enter your email",
                               hintStyle: TextStyle(
                                 color: Colors.black54,
                                 fontFamily: 'Roboto-Regular',

@@ -3,17 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/Utils/app-constant.dart';
-import 'package:fresh_n_fish_spectrum/View/Widget/banner-widget.dart';
+
 import 'package:fresh_n_fish_spectrum/view/screens/cart-screen.dart';
+import 'package:fresh_n_fish_spectrum/view/widget/banner-widget.dart';
+import 'package:fresh_n_fish_spectrum/view/widget/category-widget.dart';
+import 'package:fresh_n_fish_spectrum/view/widget/custom-drawer-widget.dart';
+import 'package:fresh_n_fish_spectrum/view/widget/product-list-widget.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../Controller/get-user-data-controller.dart';
-import '../Controller/google-sign-in-controller.dart';
-import 'Widget/category-widget.dart';
-import 'Widget/custom-drawer-widget.dart';
-import 'Widget/product-list-widget.dart';
+import '../controller/get-user-data-controller.dart';
+import '../controller/google-sign-in-controller.dart';
+import '../controller/searchbar-controller.dart';
+import '../services/search-delegate.dart';
+import '../utils/app-constant.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -69,6 +72,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final SearchBarController searchController = Get.put(SearchBarController());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -78,7 +82,7 @@ class _MainPageState extends State<MainPage> {
               child: IconButton(
                   onPressed: () => Get.offAll(() => const CartPage(),
                       transition: Transition.leftToRightWithFade),
-                  icon: Icon(
+                  icon: const Icon(
                     CupertinoIcons.cart,
                     color: Colors.white,
                     size: 30,
@@ -123,7 +127,12 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: getTextField(
                   hint: "search",
-                  icons: const Icon(Icons.search),
+                  icons: GestureDetector(
+                      onTap: () => showSearch(
+                            context: context,
+                            delegate: CustomSearchDelegate(searchController),
+                          ),
+                      child: const Icon(Icons.search)),
                   validator: null,
                   controller: null,
                   keyboardType: null,
@@ -136,19 +145,55 @@ class _MainPageState extends State<MainPage> {
         body: SingleChildScrollView(
           child: Container(
             alignment: Alignment.center,
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Trending deals',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: const Color(0xFF494949),
+                      fontSize: 14.sp,
+                      fontFamily: 'Roboto-bold',
+                    ),
+                  ),
+                ),
+                const Padding(
                   padding: EdgeInsets.only(top: 12),
                   child: BannerWidget(),
                 ),
                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'All category',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: const Color(0xFF494949),
+                      fontSize: 14.sp,
+                      fontFamily: 'Roboto-bold',
+                    ),
+                  ),
+                ),
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CategoryWidget(),
                 ),
                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'All products',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: const Color(0xFF494949),
+                      fontSize: 14.sp,
+                      fontFamily: 'Roboto-bold',
+                    ),
+                  ),
+                ),
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: GetProductWidget(),
                 )

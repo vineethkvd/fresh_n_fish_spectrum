@@ -3,14 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fresh_n_fish_spectrum/Models/categories-model.dart';
+
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../Controller/get-category-data-controller.dart';
-import '../../Controller/get-product-data-controller.dart';
 
-import '../../Models/product-model.dart';
+import '../../controller/get-category-data-controller.dart';
+import '../../models/categories-model.dart';
 import '../screens/single-category-products-screen.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -33,7 +32,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           return SizedBox(
               width: 20.w,
               height: 20.h,
-              child: const Center(child: CircularProgressIndicator()));
+              child: const Center(child: CupertinoActivityIndicator()));
         } else if (snapshot.hasError) {
           // Handle error
           return Text('Error: ${snapshot.error}');
