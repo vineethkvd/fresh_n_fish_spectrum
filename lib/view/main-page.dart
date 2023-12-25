@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:fresh_n_fish_spectrum/view/screens/cart-screen.dart';
+import 'package:fresh_n_fish_spectrum/view/serach-bar/user-serach-delegate.dart';
 import 'package:fresh_n_fish_spectrum/view/widget/banner-widget.dart';
 import 'package:fresh_n_fish_spectrum/view/widget/category-widget.dart';
 import 'package:fresh_n_fish_spectrum/view/widget/custom-drawer-widget.dart';
@@ -128,10 +129,7 @@ class _MainPageState extends State<MainPage> {
                 child: getTextField(
                   hint: "search",
                   icons: GestureDetector(
-                      onTap: () => showSearch(
-                            context: context,
-                            delegate: CustomSearchDelegate(searchController),
-                          ),
+                      onTap: () =>  showSearch(context: context, delegate: UserSearch()),
                       child: const Icon(Icons.search)),
                   validator: null,
                   controller: null,
