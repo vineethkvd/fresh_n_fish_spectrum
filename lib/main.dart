@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fresh_n_fish_spectrum/services/upi-payment/upi-payment-page.dart';
 import 'package:fresh_n_fish_spectrum/view/auth_ui/splash-screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
           debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
+          home: UpiPay(),
         );
       },
     );

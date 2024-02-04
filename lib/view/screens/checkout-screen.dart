@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
+import 'package:fresh_n_fish_spectrum/services/upi-payment/upi-payment-page.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -25,8 +26,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController productPriceController =
       Get.put(ProductPriceController());
-  final PlaceOrderController _placeOrderController =
-  Get.put(PlaceOrderController());
+  // final PlaceOrderController _placeOrderController =
+  // Get.put(PlaceOrderController());
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -118,13 +119,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                     //place order serice
 
-                    _placeOrderController.placeOrder(
-                      context: context,
-                      customerName: name,
-                      customerPhone: phone,
-                      customerAddress: address,
-                      customerDeviceToken: customerToken,
-                    );
+                    // _placeOrderController.placeOrder(
+                    //   context: context,
+                    //   customerName: name,
+                    //   customerPhone: phone,
+                    //   customerAddress: address,
+                    //   customerDeviceToken: customerToken,
+                    // );
+                    // Get.off(()=>UpiPage(name, phone, address, customerToken));
                   } else {
                     print("Fill The Details");
                   }
