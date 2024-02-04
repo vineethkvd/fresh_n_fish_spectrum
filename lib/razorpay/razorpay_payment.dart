@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fresh_n_fish_spectrum/razorpay/razor_credentials.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class RazorPayPage extends StatefulWidget {
@@ -31,9 +32,11 @@ class _RazorPayPageState extends State<RazorPayPage> {
 
   void openCheckOut(int amount) async {
     var options = {
-      'key': '2l4eWsuVtAmCZVnCkiDhdUTr',
+      'key': RazorPayCredentials.keyId,
       'amount': amount,
       'name': 'Vineeth Venu',
+      'description': 'Description for order',
+      'timeout': 60,
       'prefill': {
         'contact': '9400377390',
         'email': 'vineeth.venu.mini@gmail.com'
@@ -79,31 +82,34 @@ class _RazorPayPageState extends State<RazorPayPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: amtController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'please enter the amount to be paid';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter Amount'),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  int amount = int.parse(amtController.text);
-                  openCheckOut(amount);
-                }
-              },
-              child: Text('Pay Now'),
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: amtController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the amount to be paid';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Enter Amount'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    int amount = int.tryParse(amtController.text) ?? 0;
+                    openCheckOut(amount);
+                  }
+                },
+                child: Text('Pay Now'),
+              ),
+            ],
+          ),
         ),
       ),
     );
